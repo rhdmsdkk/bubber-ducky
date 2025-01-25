@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BubberController : MonoBehaviour
@@ -11,28 +10,39 @@ public class BubberController : MonoBehaviour
     private int slowCount;
     private Vector3 ogVel;
 
+    [Header("Jump")]
+    [SerializeField] private float jumpForce;
+    [SerializeField] private float fallMultiplier;
+    [SerializeField] private LayerMask groundLayer;
+    private float bubberHeight;
+    private bool isGrounded;
+
     private Rigidbody rb;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
+
         speedScale = 1f;
         slowCount = 0;
         ogVel = Vector3.zero;
+
+        bubberHeight = GetComponent<CapsuleCollider>().radius;
     }
 
     private void Update()
     {
         CapSpeed();
-        CheckSlow();
     }
 
     private void FixedUpdate()
     {
         Move();
+        CheckSlow();
+        CheckJump();
     }
 
-    #region Movement
+    #region Move
     private void Move()
     {
         // forward movement
@@ -42,7 +52,7 @@ public class BubberController : MonoBehaviour
         Vector3 sidewaysDir = Vector3.zero;
         if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.5f)
         {
-            sidewaysDir = 35f * Input.GetAxisRaw("Horizontal") * transform.right;
+            sidewaysDir = 50f * Input.GetAxisRaw("Horizontal") * transform.right;
         }
 
         rb.AddForce(20f * speed * (forwardDir + sidewaysDir).normalized, ForceMode.Force);
@@ -69,6 +79,23 @@ public class BubberController : MonoBehaviour
         }
 
         rb.velocity = new(rb.velocity.x, rb.velocity.y, ogVel.z * speedScale);
+    }
+    #endregion
+
+    #region Jump
+    private void CheckJump()
+    {
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, bubberHeight * 0.5f + 0.5f, groundLayer);
+
+        if (isGrounded && Input.GetKey(KeyCode.Space))
+        {
+            rb.AddForce(20f * jumpForce * transform.up, ForceMode.Impulse);
+        }
+
+        if (!isGrounded)
+        {
+            rb.velocity += new Vector3(0f, -fallMultiplier, 0f);
+        }
     }
     #endregion
 
