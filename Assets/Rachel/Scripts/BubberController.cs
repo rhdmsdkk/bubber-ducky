@@ -72,26 +72,12 @@ public class BubberController : MonoBehaviour
             rb.velocity = new(cappedVel.x, rb.velocity.y, cappedVel.z);
         }
     }
-
-    private void CheckSlow()
-    {
-        if (slowCount <= 0)
-        {
-            speedScale = 1f;
-            ogVel = rb.velocity;
-            return;
-        }
-
-        rb.velocity = new(rb.velocity.x, rb.velocity.y, ogVel.z * speedScale);
-    }
     #endregion
 
     #region Jump
     private void CheckJump()
     {
         isGrounded = Physics.Raycast(transform.position, Vector3.down, bubberHeight + 0.5f, groundLayer);
-
-        Debug.Log(isGrounded + " " + bubberHeight);
 
         if (isGrounded && Input.GetKey(KeyCode.Space))
         {
@@ -103,11 +89,12 @@ public class BubberController : MonoBehaviour
         }
     }
 
+    private Vector3 refVel = Vector3.zero;
     private void AlignMesh()
     {
-        if (isGrounded && Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, Mathf.Infinity, groundLayer))
+        if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, Mathf.Infinity, groundLayer))
         {
-            meshTransform.up = hit.normal;
+            meshTransform.up = Vector3.SmoothDamp(meshTransform.up, hit.normal, ref refVel, 0.35f);
         }
     }
     #endregion
@@ -117,6 +104,18 @@ public class BubberController : MonoBehaviour
     {
         speedScale = 1f - slowMultiplier;
         StartCoroutine(ISlow());
+    }
+
+    private void CheckSlow()
+    {
+        if (slowCount <= 0)
+        {
+            speedScale = 1f;
+            ogVel = rb.velocity;
+            return;
+        }
+
+        rb.velocity = new(rb.velocity.x, rb.velocity.y, ogVel.z * speedScale);
     }
 
     IEnumerator ISlow()
