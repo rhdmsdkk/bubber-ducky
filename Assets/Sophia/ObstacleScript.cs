@@ -11,7 +11,7 @@ public class ObstacleScript : MonoBehaviour
         if (other.TryGetComponent<BubberController>(out BubberController bubber))
         {
             BubbleCountScript.loseBubble();
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }

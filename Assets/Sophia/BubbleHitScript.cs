@@ -11,7 +11,7 @@ public class BubbleHitScript : MonoBehaviour
         if (other.TryGetComponent<BubberController>(out BubberController bubber))
         {
             BubbleCountScript.addBubble();
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }
