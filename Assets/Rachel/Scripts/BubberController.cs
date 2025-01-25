@@ -17,6 +17,9 @@ public class BubberController : MonoBehaviour
     private float bubberHeight;
     private bool isGrounded;
 
+    [Header("Mesh")]
+    [SerializeField] private Transform meshTransform;
+
     private Rigidbody rb;
 
     private void Start()
@@ -33,6 +36,7 @@ public class BubberController : MonoBehaviour
     private void Update()
     {
         CapSpeed();
+        AlignMesh();
     }
 
     private void FixedUpdate()
@@ -85,16 +89,25 @@ public class BubberController : MonoBehaviour
     #region Jump
     private void CheckJump()
     {
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, bubberHeight * 0.5f + 0.5f, groundLayer);
+        isGrounded = Physics.Raycast(transform.position, Vector3.down, bubberHeight + 0.5f, groundLayer);
+
+        Debug.Log(isGrounded + " " + bubberHeight);
 
         if (isGrounded && Input.GetKey(KeyCode.Space))
         {
             rb.AddForce(20f * jumpForce * transform.up, ForceMode.Impulse);
         }
 
-        if (!isGrounded)
-        {
+        if (!isGrounded) {
             rb.velocity += new Vector3(0f, -fallMultiplier, 0f);
+        }
+    }
+
+    private void AlignMesh()
+    {
+        if (isGrounded && Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, Mathf.Infinity, groundLayer))
+        {
+            meshTransform.up = hit.normal;
         }
     }
     #endregion
