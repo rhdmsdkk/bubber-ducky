@@ -16,9 +16,12 @@ public class BubberController : MonoBehaviour
     [SerializeField] private LayerMask groundLayer;
     private float bubberHeight;
     private bool isGrounded;
+    private bool canJump;
 
     [Header("Mesh")]
     [SerializeField] private Transform meshTransform;
+
+    private float horizontalInput;
 
     private Rigidbody rb;
 
@@ -31,10 +34,13 @@ public class BubberController : MonoBehaviour
         ogVel = Vector3.zero;
 
         bubberHeight = GetComponent<CapsuleCollider>().radius;
+
+        horizontalInput = 0f;
     }
 
     private void Update()
     {
+        CheckInput();
         CapSpeed();
         AlignMesh();
     }
@@ -43,7 +49,18 @@ public class BubberController : MonoBehaviour
     {
         Move();
         CheckSlow();
-        CheckJump();
+        CheckGround();
+        Jump();
+    }
+
+    private void CheckInput()
+    {
+        horizontalInput = Input.GetAxisRaw("Horizontal");
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            canJump = true;
+        }
     }
 
     #region Move
@@ -54,9 +71,9 @@ public class BubberController : MonoBehaviour
 
         // sideways movement
         Vector3 sidewaysDir = Vector3.zero;
-        if (Mathf.Abs(Input.GetAxisRaw("Horizontal")) > 0.5f)
+        if (Mathf.Abs(horizontalInput) > 0.5f)
         {
-            sidewaysDir = 50f * Input.GetAxisRaw("Horizontal") * transform.right;
+            sidewaysDir = 50f * horizontalInput * transform.right;
         }
 
         rb.AddForce(20f * speed * (forwardDir + sidewaysDir).normalized, ForceMode.Force);
@@ -75,17 +92,21 @@ public class BubberController : MonoBehaviour
     #endregion
 
     #region Jump
-    private void CheckJump()
+    private void CheckGround()
     {
         isGrounded = Physics.Raycast(transform.position, Vector3.down, bubberHeight + 0.5f, groundLayer);
 
-        if (isGrounded && Input.GetKey(KeyCode.Space))
-        {
-            rb.AddForce(20f * jumpForce * transform.up, ForceMode.Impulse);
-        }
-
         if (!isGrounded) {
             rb.velocity += new Vector3(0f, -fallMultiplier, 0f);
+        }
+    }
+
+    private void Jump()
+    {
+        if (isGrounded && canJump)
+        {
+            canJump = false;
+            rb.AddForce(20f * jumpForce * meshTransform.up, ForceMode.Impulse);
         }
     }
 
