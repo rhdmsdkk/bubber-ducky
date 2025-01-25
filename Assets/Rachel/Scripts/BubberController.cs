@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class BubberController : MonoBehaviour
 {
+    [Header("Speed")]
     [SerializeField] private float speed;
     [SerializeField] private float maxSpeed;
     [SerializeField] private float slideSpeedMultiplier;
