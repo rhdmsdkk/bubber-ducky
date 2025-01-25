@@ -22,8 +22,10 @@ public class BubberController : MonoBehaviour
 
     private void Update()
     {
+        // constantly slide down the pipe
         transform.Translate(slideSpeedMultiplier * speed * speedScale * Time.deltaTime * Vector3.forward);
 
+        // sideways movement
         if (Input.GetAxisRaw("Horizontal") < -0.5f || Input.GetAxisRaw("Horizontal") > 0.5f)
         {
             rb.velocity += sidewaysSpeedMultiplier * speed * speedScale * Time.deltaTime * Input.GetAxisRaw("Horizontal") * transform.right;
@@ -38,6 +40,7 @@ public class BubberController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        // cap speed
         if (rb.velocity.magnitude > maxSpeed)
         {
             rb.velocity = rb.velocity.normalized * maxSpeed;
