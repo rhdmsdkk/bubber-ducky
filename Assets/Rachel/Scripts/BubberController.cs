@@ -68,8 +68,7 @@ public class BubberController : MonoBehaviour
             return;
         }
 
-        float slowScale = 1 - speedScale;
-        rb.velocity = new(rb.velocity.x, rb.velocity.y, ogVel.z * slowScale);
+        rb.velocity = new(rb.velocity.x, rb.velocity.y, ogVel.z * speedScale);
     }
     #endregion
 
