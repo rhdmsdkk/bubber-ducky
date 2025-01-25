@@ -10,6 +10,7 @@ public class BubberController : MonoBehaviour
     [SerializeField] private float slideSpeedMultiplier;
     [SerializeField] private float sidewaysSpeedMultiplier;
     private float speedScale = 1f;
+    private int slowCount = 0;
 
     private Rigidbody rb;
 
@@ -23,9 +24,15 @@ public class BubberController : MonoBehaviour
     {
         transform.Translate(slideSpeedMultiplier * speed * speedScale * Time.deltaTime * Vector3.forward);
 
-        if (Input.GetAxisRaw("Horizontal") < -0.5 || Input.GetAxisRaw("Horizontal") > 0.5)
+        if (Input.GetAxisRaw("Horizontal") < -0.5f || Input.GetAxisRaw("Horizontal") > 0.5f)
         {
             rb.velocity += sidewaysSpeedMultiplier * speed * speedScale * Time.deltaTime * Input.GetAxisRaw("Horizontal") * transform.right;
+        }
+
+        // check for slow
+        if (slowCount == 0)
+        {
+            speedScale = 1f;
         }
     }
 
@@ -40,16 +47,17 @@ public class BubberController : MonoBehaviour
     #region Slow
     public void Slow(float slowMultiplier)
     {
-        StartCoroutine(ISlow(slowMultiplier));
+        speedScale = 1f - slowMultiplier;
+        StartCoroutine(ISlow());
     }
 
-    IEnumerator ISlow(float slowMultiplier)
+    IEnumerator ISlow()
     {
-        speedScale -= slowMultiplier;
+        slowCount++;
 
         yield return new WaitForSeconds(1.5f);
 
-        speedScale = 1f;
+        slowCount--;
     }
     #endregion
 }
