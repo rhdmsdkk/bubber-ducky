@@ -9,8 +9,8 @@ public class BubberController : MonoBehaviour
     [SerializeField] private float maxSpeed;
     [SerializeField] private float slideSpeedMultiplier;
     [SerializeField] private float sidewaysSpeedMultiplier;
-    private float speedScale = 1f;
-    private int slowCount = 0;
+    private float speedScale;
+    private int slowCount;
 
     private Rigidbody rb;
 
@@ -18,6 +18,7 @@ public class BubberController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         speedScale = 1f;
+        slowCount = 0;
     }
 
     private void Update()
