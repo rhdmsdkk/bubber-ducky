@@ -52,7 +52,6 @@ public class BubberController : MonoBehaviour
 
     private void Update()
     {
-        //Debug.Log(state);
         if (state == BubberState.PLAY)
         {
             CheckInput();
@@ -60,6 +59,7 @@ public class BubberController : MonoBehaviour
         }
 
         AlignMesh();
+
         if (Globals.introOccurring || Globals.isRestart)
         {
             EnterIdleState();
@@ -68,7 +68,6 @@ public class BubberController : MonoBehaviour
         {
             EnterPlayState();
         }
-                
     }
 
     private void FixedUpdate()
@@ -182,8 +181,11 @@ public class BubberController : MonoBehaviour
     #region States
     public void EnterPlayState()
     {
+        if (Time.timeScale != 0f)
+        {
+            DisableCursor();
+        }
         state = BubberState.PLAY;
-        DisableCursor();
     }
 
     public void EnterIdleState()

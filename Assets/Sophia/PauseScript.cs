@@ -16,7 +16,7 @@ public class PauseScript : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyUp(KeyCode.Escape))
         {
             Pause();
         }
@@ -27,12 +27,16 @@ public class PauseScript : MonoBehaviour
         pauseMenu.SetActive(true);
         Time.timeScale = 0f;
         Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
     public void Resume()
     {
         pauseMenu.SetActive(false);
         Time.timeScale = 1f;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
+
     public void Restart()
     {
         player.transform.position = Globals.playerStartingPosition;
@@ -53,13 +57,15 @@ public class PauseScript : MonoBehaviour
         
         Time.timeScale = 1f;
     }
+
     public void ExitToHome()
     {
         Restart();
         SceneManager.LoadScene("Menu");
     }
+
     public void PlayAgain()
     {
-        SceneManager.LoadScene(Globals.currentScene);
+        SceneManager.LoadScene("LevelOne");
     }
 }
