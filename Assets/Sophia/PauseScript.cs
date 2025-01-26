@@ -12,12 +12,21 @@ public class PauseScript : MonoBehaviour
     {
         bubbles = GameObject.FindGameObjectsWithTag("Bubble");
         obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
+    }
 
-}
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Pause();
+        }
+    }
+
     public void Pause()
     {
         pauseMenu.SetActive(true);
         Time.timeScale = 0f;
+        Cursor.visible = true;
     }
     public void Resume()
     {

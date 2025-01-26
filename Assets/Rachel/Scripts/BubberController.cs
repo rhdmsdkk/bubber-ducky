@@ -47,6 +47,7 @@ public class BubberController : MonoBehaviour
     private void OnDisable()
     {
         EnterIdleState();
+        EnableCursor();
     }
 
     private void Update()
@@ -182,12 +183,26 @@ public class BubberController : MonoBehaviour
     public void EnterPlayState()
     {
         state = BubberState.PLAY;
+        DisableCursor();
     }
 
     public void EnterIdleState()
     {
         state = BubberState.IDLE;
         rb.velocity = Vector3.zero;
+        EnableCursor();
+    }
+
+    private void EnableCursor()
+    {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+    }
+
+    private void DisableCursor()
+    {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
     #endregion
 }
