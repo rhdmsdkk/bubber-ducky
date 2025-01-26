@@ -1,16 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BubbleHitScript : MonoBehaviour
 {
+    private Pulser bubbleCounter;
 
-    // Update is called once per frame
+    private void Start()
+    {
+        bubbleCounter = FindAnyObjectByType<Pulser>();
+    }
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent<BubberController>(out BubberController bubber))
         {
             BubbleCountScript.addBubble();
+            bubbleCounter.Pulse();
             gameObject.SetActive(false);
         }
     }
