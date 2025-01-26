@@ -29,10 +29,12 @@ public class BubberController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
 
+        // speed
         speedScale = 1f;
         slowCount = 0;
         ogVel = Vector3.zero;
 
+        // jump
         bubberHeight = GetComponent<CapsuleCollider>().radius;
 
         horizontalInput = 0f;
@@ -115,7 +117,7 @@ public class BubberController : MonoBehaviour
     {
         if (Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, Mathf.Infinity, groundLayer))
         {
-            meshTransform.up = Vector3.SmoothDamp(meshTransform.up, hit.normal, ref refVel, 0.35f);
+            meshTransform.up = Vector3.SmoothDamp(meshTransform.up, hit.normal, ref refVel, isGrounded ? 0.1f : 0.35f);
         }
     }
     #endregion
