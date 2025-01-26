@@ -11,19 +11,19 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/FirstLevelTemp.unity
     guid: 66a3f8640b8934ce997ecbf78876c489
-  - enabled: 1
+  - enabled: 0
     path: Assets/Hannah/Hannah.unity
     guid: 6604e015eeceb41ac94c283461d591ee
-  - enabled: 1
+  - enabled: 0
     path: Assets/Sophia/Draft2LevelOne.unity
     guid: 35feae2395e8944a4b5bd3c4202eb3ef
   - enabled: 1
     path: Assets/Sophia/LoseScene.unity
-    guid: ae589313262a2494792d3b5c3aa4f250
+    guid: 7cec8d9920bde44b4a397790be56ae74
   - enabled: 1
     path: Assets/Sophia/WinScene.unity
     guid: fc4dcc4c16eaa4567a63c921b3cea750
-  - enabled: 1
+  - enabled: 0
     path: Assets/Hannah/CurveLevelOne.unity
     guid: fc53592bb4f454e938971ccbcecced3e
   - enabled: 1

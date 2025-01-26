@@ -4984,8 +4984,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7ba29deb7495d147b73b8876f0dd3b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 25
-  maxSpeed: 35
+  speed: 30
+  maxSpeed: 40
   jumpForce: 30
   fallMultiplier: 3
   groundLayer:
