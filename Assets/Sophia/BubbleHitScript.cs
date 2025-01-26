@@ -3,7 +3,6 @@ using UnityEngine;
 public class BubbleHitScript : MonoBehaviour
 {
     private Pulser bubbleCounter;
-    [SerializeField] private GameObject popParticleSystem;
 
     private void Start()
     {
