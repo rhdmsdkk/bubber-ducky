@@ -1885,6 +1885,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bubber
       objectReference: {fileID: 0}
+    - target: {fileID: 7137423825741317728, guid: 6b4fb088a5b52eb428bae05be3745edd, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
